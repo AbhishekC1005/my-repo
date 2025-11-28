@@ -2,41 +2,63 @@ import React from 'react';
 
 export const HeroOrb: React.FC = () => {
   return (
-    <div className="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center pointer-events-none select-none">
-      
-      {/* Central Core Glow */}
-      <div className="absolute w-24 h-24 md:w-32 md:h-32 rounded-full bg-champagne-500/10 blur-2xl animate-pulse-slow"></div>
-      
-      {/* The Glass Nucleus */}
-      <div className="absolute w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-white/10 to-transparent backdrop-blur-sm border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] flex items-center justify-center overflow-hidden z-20">
-         <div className="absolute inset-0 bg-space-950/40"></div>
-         {/* Internal Scanning Laser */}
-         <div className="absolute w-full h-[2px] bg-champagne-300/50 shadow-[0_0_10px_rgba(212,197,165,0.8)] animate-scan"></div>
-         {/* Inner Grid */}
-         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:10px_10px]"></div>
+    <div className="relative w-48 h-48 md:w-72 md:h-72 flex items-center justify-center pointer-events-none select-none">
+
+      {/* Background Rays */}
+      <div className="absolute inset-0 flex items-center justify-center animate-spin-slow opacity-20">
+        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-champagne-400 to-transparent absolute rotate-0"></div>
+        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-champagne-400 to-transparent absolute rotate-45"></div>
+        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-champagne-400 to-transparent absolute rotate-90"></div>
+        <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-champagne-400 to-transparent absolute rotate-135"></div>
       </div>
 
-      {/* Gyroscopic Ring 1 (Vertical-ish) */}
-      <div className="absolute w-40 h-40 md:w-56 md:h-56 rounded-full border border-white/5 border-t-champagne-300/30 border-b-champagne-300/30 animate-spin-slow z-10"></div>
-      
-      {/* Gyroscopic Ring 2 (Horizontal-ish) */}
-      <div className="absolute w-48 h-48 md:w-72 md:h-72 rounded-full border border-dashed border-white/10 animate-[spin_15s_linear_infinite_reverse] z-10"></div>
-
-      {/* Outer Bracket HUD Elements */}
-      <div className="absolute w-56 h-56 md:w-80 md:h-80 opacity-30 animate-pulse-slow">
-         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-4 bg-champagne-500/50"></div>
-         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-4 bg-champagne-500/50"></div>
-         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-1 bg-champagne-500/50"></div>
-         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-1 bg-champagne-500/50"></div>
+      {/* Rotating Rune Ring */}
+      <div className="absolute inset-0 flex items-center justify-center animate-spin-reverse-slow opacity-50">
+        <div className="w-40 h-40 md:w-60 md:h-60 rounded-full border border-dashed border-champagne-500/60"></div>
       </div>
 
-      {/* Connecting Data Lines */}
-      <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent top-1/2 left-0 -z-10"></div>
-      <div className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent left-1/2 top-0 -z-10"></div>
+      {/* The Triangle (Pyramid) */}
+      <div className="relative w-32 h-32 md:w-48 md:h-48 z-10">
+        <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_15px_rgba(212,197,165,0.5)]">
+          {/* Outer Triangle */}
+          <polygon points="50,5 95,90 5,90" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-champagne-200" />
 
-      {/* Floating Particles (Static Geometry) */}
-      <div className="absolute top-10 right-20 w-1 h-1 bg-white/40 rounded-full animate-ping [animation-duration:4s]"></div>
-      <div className="absolute bottom-16 left-16 w-1 h-1 bg-champagne-400/60 rounded-full animate-ping [animation-duration:5s]"></div>
+          {/* Inner Grid / Circuit Lines */}
+          <path d="M50,20 L50,85 M30,55 L70,55 M40,70 L60,70" stroke="currentColor" strokeWidth="0.1" className="text-champagne-500/30" />
+
+          {/* Inner Rotating Triangle */}
+          <g className="origin-center animate-[spin_10s_linear_infinite_reverse]">
+            <polygon points="50,15 85,80 15,80" fill="none" stroke="currentColor" strokeWidth="0.2" className="text-champagne-400/50" />
+          </g>
+
+          {/* Capstone Line */}
+          <line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" strokeWidth="0.2" className="text-champagne-400/50" />
+        </svg>
+
+        {/* The All-Seeing Eye */}
+        <div className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-6 md:w-12 md:h-8">
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Sclera Shape */}
+            <div className="absolute inset-0 border border-champagne-300/60 rounded-[100%] rotate-0 bg-space-950/80 backdrop-blur-sm overflow-hidden shadow-[inset_0_0_10px_rgba(212,197,165,0.2)]">
+              {/* Iris/Pupil with Look Animation */}
+              <div className="absolute top-1/2 left-1/2 w-3 h-3 md:w-4 md:h-4 bg-champagne-100 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-look">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-black rounded-full"></div>
+              </div>
+              {/* Scanning Line */}
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-champagne-400/50 animate-scan shadow-[0_0_5px_rgba(212,197,165,0.8)]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-10 left-1/2 w-1 h-1 bg-champagne-200 rounded-full shadow-[0_0_10px_white] animate-float" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute bottom-20 right-10 w-1 h-1 bg-champagne-200 rounded-full shadow-[0_0_10px_white] animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-10 w-1 h-1 bg-champagne-200 rounded-full shadow-[0_0_10px_white] animate-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-10 left-20 w-0.5 h-0.5 bg-champagne-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-20 right-20 w-0.5 h-0.5 bg-champagne-400 rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
+      </div>
 
     </div>
   );
