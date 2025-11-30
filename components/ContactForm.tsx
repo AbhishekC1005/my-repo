@@ -70,7 +70,7 @@ export const ContactForm: React.FC = () => {
             <CheckCircle2 className="w-8 h-8 text-green-400" />
           </div>
           <p className="text-champagne-200 font-mono tracking-widest">TRANSMISSION RECEIVED</p>
-          <p className="text-xs text-white/40 font-mono">CHECK YOUR EMAIL FOR ACTIVATION (First Time Only)</p>
+
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
