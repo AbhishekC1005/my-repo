@@ -1,19 +1,60 @@
 import React, { useState } from 'react';
 import { GlassCard } from './GlassCard';
-import { Send, Terminal, Loader2, CheckCircle2 } from 'lucide-react';
+import { Send, Terminal, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export const ContactForm: React.FC = () => {
-  const [formState, setFormState] = useState<'idle' | 'sending' | 'sent'>('idle');
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formState, setFormState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('sending');
-    // Simulate network delay
-    setTimeout(() => {
-      setFormState('sent');
-      // Reset after a delay
-      setTimeout(() => setFormState('idle'), 3000);
-    }, 2000);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/abhishekchaudhari336@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Portfolio Contact: ${formData.name}`,
+          _template: "table", // Optional: makes the email look nicer
+          _captcha: "false"   // Optional: disable captcha if you want
+        })
+      });
+
+      if (response.ok) {
+        setFormState('sent');
+        // Reset after a delay
+        setTimeout(() => {
+          setFormState('idle');
+          setFormData({ name: '', email: '', message: '' });
+        }, 5000);
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setFormState('error');
+      setErrorMessage('Transmission failed. Please check your connection.');
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   return (
@@ -29,40 +70,56 @@ export const ContactForm: React.FC = () => {
             <CheckCircle2 className="w-8 h-8 text-green-400" />
           </div>
           <p className="text-champagne-200 font-mono tracking-widest">TRANSMISSION RECEIVED</p>
-          <p className="text-xs text-white/40 font-mono">PACKET ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+          <p className="text-xs text-white/40 font-mono">CHECK YOUR EMAIL FOR ACTIVATION (First Time Only)</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-[10px] font-mono text-white/40 uppercase tracking-widest ml-1">Identity Code (Name)</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 required
                 className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-sm text-champagne-100 focus:outline-none focus:border-champagne-400/50 focus:bg-black/40 transition-all font-mono placeholder:text-white/10"
-                placeholder="ENTER_ID"
+                placeholder="Enter your full name"
               />
             </div>
             <div className="space-y-2">
               <label className="text-[10px] font-mono text-white/40 uppercase tracking-widest ml-1">Frequency (Email)</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 required
                 className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-sm text-champagne-100 focus:outline-none focus:border-champagne-400/50 focus:bg-black/40 transition-all font-mono placeholder:text-white/10"
-                placeholder="USER@NET.COM"
+                placeholder="Enter your email address"
               />
             </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-[10px] font-mono text-white/40 uppercase tracking-widest ml-1">Data Packet (Message)</label>
-            <textarea 
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
               required
               rows={4}
               className="w-full bg-black/20 border border-white/10 rounded-lg p-3 text-sm text-champagne-100 focus:outline-none focus:border-champagne-400/50 focus:bg-black/40 transition-all resize-none font-mono placeholder:text-white/10"
-              placeholder="ENTER MESSAGE CONTENT..."
+              placeholder="Enter your message here..."
             />
           </div>
+
+          {formState === 'error' && (
+            <div className="flex items-center gap-2 text-red-400 text-xs font-mono bg-red-500/10 p-3 rounded border border-red-500/20">
+              <AlertCircle className="w-4 h-4" />
+              {errorMessage}
+            </div>
+          )}
 
           <div className="pt-4 flex justify-end">
             <button
